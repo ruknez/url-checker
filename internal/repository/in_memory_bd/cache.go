@@ -8,12 +8,12 @@ import (
 
 type cache struct {
 	data map[string]entity.UrlInBd
-	mtx  sync.Mutex
+	mtx  sync.RWMutex
 }
 
 func NewCache() *cache {
 	return &cache{
 		data: make(map[string]entity.UrlInBd, 10),
-		mtx:  sync.Mutex{},
+		mtx:  sync.RWMutex{},
 	}
 }

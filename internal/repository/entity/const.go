@@ -7,7 +7,8 @@ import (
 type Status int
 
 const (
-	Available Status = iota
+	NotCheck Status = iota
+	Available
 	NotAvailable
 	Moved
 	ServerError

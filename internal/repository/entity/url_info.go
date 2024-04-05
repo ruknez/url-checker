@@ -9,12 +9,12 @@ type UrlInfo struct {
 	Duration  time.Duration
 	Headers   []string
 	LastCheck *time.Time
-	Status    *Status
+	Status    Status
 }
 
 type UrlInBd struct {
 	URL       string
-	Duration  time.Duration
+	Duration  int64
 	Headers   []string
 	LastCheck int64
 	Status    int
