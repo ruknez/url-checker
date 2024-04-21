@@ -6,18 +6,14 @@ import (
 	"net/http"
 
 	"github.com/pkg/errors"
+	entity "url-checker/internal/domain"
 )
-
-//go:generate ./../../../../bin/moq -stub -skip-ensure -pkg mocks -out ./mocks/get_url_statuser_mock.go . GetUrlStatuser:GetUrlStatuserMock
-type GetUrlStatuser interface {
-	GetUrlStatus(ctx context.Context, url string) (int, error)
-}
 
 type checkClient struct {
 	r io.Reader
 }
 
-func (c *checkClient) GetUrlStatus(ctx context.Context, url string) (int, error) {
+func (c *checkClient) GetUrlStatus(ctx context.Context, url string) (entity.Status, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodOptions, url, c.r)
 	if err != nil {
 		return 0, errors.Wrap(err, "http.NewRequestWithContext")
@@ -30,5 +26,5 @@ func (c *checkClient) GetUrlStatus(ctx context.Context, url string) (int, error)
 
 	defer resp.Body.Close()
 
-	return resp.StatusCode, nil
+	return ConvertStatus(resp.StatusCode), nil
 }

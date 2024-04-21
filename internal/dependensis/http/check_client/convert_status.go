@@ -1,7 +1,7 @@
-package common
+package check_client
 
 import (
-	"url-checker/internal/repository/entity"
+	entity "url-checker/internal/domain"
 )
 
 func ConvertStatus(status int) entity.Status {

@@ -3,18 +3,19 @@ package in_memory_bd
 import (
 	"context"
 
-	"url-checker/internal/repository/entity"
+	entity "url-checker/internal/domain"
+	"url-checker/internal/repository/in_memory_bd/mapping"
 )
 
-func (c *cache) Get(_ context.Context, url string) (entity.UrlInBd, error) {
+func (c *cache) Get(_ context.Context, url string) (entity.UrlInfo, error) {
 	c.mtx.RLock()
 	defer c.mtx.RUnlock()
 
 	if data, ok := c.data[url]; ok {
-		return data, nil
+		return mapping.URLBdToURLInfoMapping(data), nil
 	}
 
-	return entity.UrlInBd{}, entity.NoDataErr
+	return entity.UrlInfo{}, entity.NoDataErr
 }
 
 func (c *cache) GetAllUrls(_ context.Context) []string {

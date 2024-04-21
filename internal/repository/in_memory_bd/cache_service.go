@@ -3,17 +3,17 @@ package in_memory_bd
 import (
 	"sync"
 
-	"url-checker/internal/repository/entity"
+	inMemoryBd "url-checker/internal/repository/in_memory_bd/entity"
 )
 
 type cache struct {
-	data map[string]entity.UrlInBd
+	data map[string]inMemoryBd.UrlInBd
 	mtx  sync.RWMutex
 }
 
 func NewCache() *cache {
 	return &cache{
-		data: make(map[string]entity.UrlInBd, 10),
+		data: make(map[string]inMemoryBd.UrlInBd, 10),
 		mtx:  sync.RWMutex{},
 	}
 }

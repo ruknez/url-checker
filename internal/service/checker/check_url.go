@@ -4,8 +4,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"url-checker/internal/common"
-	"url-checker/internal/repository/entity"
+	entity "url-checker/internal/domain"
 )
 
 func (c *checker) checkAllUrls(ctx context.Context) {
@@ -31,10 +30,10 @@ func (c *checker) checkAllUrls(ctx context.Context) {
 func (c *checker) checkUrl(ctx context.Context, url string) (entity.Status, error) {
 	status, err := c.statuserService.GetUrlStatus(ctx, url)
 	if err != nil {
-		return entity.Status(status), errors.Wrap(err, "statuserService.GetUrlStatus")
+		return status, errors.Wrap(err, "statuserService.GetUrlStatus")
 	}
 
-	return common.ConvertStatus(status), nil
+	return status, nil
 }
 
 func (c *checker) saveStatus(ctx context.Context, url string, status entity.Status) error {

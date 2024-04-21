@@ -1,9 +1,15 @@
 package main
 
 import (
-	"url-checker/internal/repository"
+	"context"
+
+	entity "url-checker/internal/domain"
 )
 
-func main() {
-	repository.GetLOLO()
+//go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/checker_mock.go . checker:CheckerMock
+type checker interface {
+	SaveToCheck(ctx context.Context, urlInfo entity.UrlInfo) error
+	GetStatus(ctx context.Context, url string) (entity.Status, error)
 }
+
+func main() {}

@@ -11,11 +11,3 @@ type UrlInfo struct {
 	LastCheck *time.Time
 	Status    Status
 }
-
-type UrlInBd struct {
-	URL       string
-	Duration  int64
-	Headers   []string
-	LastCheck int64
-	Status    int
-}

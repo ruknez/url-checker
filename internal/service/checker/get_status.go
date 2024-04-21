@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"url-checker/internal/repository/entity"
+	entity "url-checker/internal/domain"
 )
 
 func (c *checker) GetStatus(ctx context.Context, url string) (entity.Status, error) {

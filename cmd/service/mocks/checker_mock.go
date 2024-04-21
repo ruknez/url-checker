@@ -6,15 +6,15 @@ package mocks
 import (
 	"context"
 	"sync"
-	"url-checker/internal/repository/entity"
+	entity "url-checker/internal/domain"
 )
 
-// CheckerMock is a mock implementation of checker.Checker.
+// CheckerMock is a mock implementation of main.checker.
 //
-//	func TestSomethingThatUsesChecker(t *testing.T) {
+//	func TestSomethingThatUseschecker(t *testing.T) {
 //
-//		// make and configure a mocked checker.Checker
-//		mockedChecker := &CheckerMock{
+//		// make and configure a mocked main.checker
+//		mockedchecker := &CheckerMock{
 //			GetStatusFunc: func(ctx context.Context, url string) (entity.Status, error) {
 //				panic("mock out the GetStatus method")
 //			},
@@ -23,7 +23,7 @@ import (
 //			},
 //		}
 //
-//		// use mockedChecker in code that requires checker.Checker
+//		// use mockedchecker in code that requires main.checker
 //		// and then make assertions.
 //
 //	}
@@ -80,7 +80,7 @@ func (mock *CheckerMock) GetStatus(ctx context.Context, url string) (entity.Stat
 // GetStatusCalls gets all the calls that were made to GetStatus.
 // Check the length with:
 //
-//	len(mockedChecker.GetStatusCalls())
+//	len(mockedchecker.GetStatusCalls())
 func (mock *CheckerMock) GetStatusCalls() []struct {
 	Ctx context.Context
 	URL string
@@ -119,7 +119,7 @@ func (mock *CheckerMock) SaveToCheck(ctx context.Context, urlInfo entity.UrlInfo
 // SaveToCheckCalls gets all the calls that were made to SaveToCheck.
 // Check the length with:
 //
-//	len(mockedChecker.SaveToCheckCalls())
+//	len(mockedchecker.SaveToCheckCalls())
 func (mock *CheckerMock) SaveToCheckCalls() []struct {
 	Ctx     context.Context
 	UrlInfo entity.UrlInfo

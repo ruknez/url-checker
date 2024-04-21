@@ -6,26 +6,27 @@ package mocks
 import (
 	"context"
 	"sync"
+	entity "url-checker/internal/domain"
 )
 
-// GetUrlStatuserMock is a mock implementation of check_client.GetUrlStatuser.
+// GetUrlStatuserMock is a mock implementation of checker.getUrlStatuser.
 //
-//	func TestSomethingThatUsesGetUrlStatuser(t *testing.T) {
+//	func TestSomethingThatUsesgetUrlStatuser(t *testing.T) {
 //
-//		// make and configure a mocked check_client.GetUrlStatuser
-//		mockedGetUrlStatuser := &GetUrlStatuserMock{
-//			GetUrlStatusFunc: func(ctx context.Context, url string) (int, error) {
+//		// make and configure a mocked checker.getUrlStatuser
+//		mockedgetUrlStatuser := &GetUrlStatuserMock{
+//			GetUrlStatusFunc: func(ctx context.Context, url string) (entity.Status, error) {
 //				panic("mock out the GetUrlStatus method")
 //			},
 //		}
 //
-//		// use mockedGetUrlStatuser in code that requires check_client.GetUrlStatuser
+//		// use mockedgetUrlStatuser in code that requires checker.getUrlStatuser
 //		// and then make assertions.
 //
 //	}
 type GetUrlStatuserMock struct {
 	// GetUrlStatusFunc mocks the GetUrlStatus method.
-	GetUrlStatusFunc func(ctx context.Context, url string) (int, error)
+	GetUrlStatusFunc func(ctx context.Context, url string) (entity.Status, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -41,7 +42,7 @@ type GetUrlStatuserMock struct {
 }
 
 // GetUrlStatus calls GetUrlStatusFunc.
-func (mock *GetUrlStatuserMock) GetUrlStatus(ctx context.Context, url string) (int, error) {
+func (mock *GetUrlStatuserMock) GetUrlStatus(ctx context.Context, url string) (entity.Status, error) {
 	callInfo := struct {
 		Ctx context.Context
 		URL string
@@ -54,10 +55,10 @@ func (mock *GetUrlStatuserMock) GetUrlStatus(ctx context.Context, url string) (i
 	mock.lockGetUrlStatus.Unlock()
 	if mock.GetUrlStatusFunc == nil {
 		var (
-			nOut   int
-			errOut error
+			statusOut entity.Status
+			errOut    error
 		)
-		return nOut, errOut
+		return statusOut, errOut
 	}
 	return mock.GetUrlStatusFunc(ctx, url)
 }
@@ -65,7 +66,7 @@ func (mock *GetUrlStatuserMock) GetUrlStatus(ctx context.Context, url string) (i
 // GetUrlStatusCalls gets all the calls that were made to GetUrlStatus.
 // Check the length with:
 //
-//	len(mockedGetUrlStatuser.GetUrlStatusCalls())
+//	len(mockedgetUrlStatuser.GetUrlStatusCalls())
 func (mock *GetUrlStatuserMock) GetUrlStatusCalls() []struct {
 	Ctx context.Context
 	URL string
