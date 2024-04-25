@@ -13,6 +13,11 @@ type checkClient struct {
 	r io.Reader
 }
 
+func NewCheckClient() *checkClient {
+	// TODO тут нужен ридер но не ясно зачем?
+	return &checkClient{r: r}
+}
+
 func (c *checkClient) GetUrlStatus(ctx context.Context, url string) (entity.Status, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodOptions, url, c.r)
 	if err != nil {
@@ -26,5 +31,5 @@ func (c *checkClient) GetUrlStatus(ctx context.Context, url string) (entity.Stat
 
 	defer resp.Body.Close()
 
-	return ConvertStatus(resp.StatusCode), nil
+	return convertStatus(resp.StatusCode), nil
 }

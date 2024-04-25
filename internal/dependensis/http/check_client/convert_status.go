@@ -4,7 +4,7 @@ import (
 	entity "url-checker/internal/domain"
 )
 
-func ConvertStatus(status int) entity.Status {
+func convertStatus(status int) entity.Status {
 	if status >= 200 && status < 300 {
 		return entity.Available
 	}

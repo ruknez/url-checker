@@ -7,6 +7,7 @@ import (
 	entity "url-checker/internal/domain"
 )
 
+// TODO не ясно как на это писать тесты?
 func (c *checker) checkAllUrls(ctx context.Context) {
 	for _, urls := range c.urlRepo.GetAllUrls(ctx) {
 		u := urls
