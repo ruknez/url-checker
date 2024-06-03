@@ -7,7 +7,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (c *cache) UpdateStatus(_ context.Context, url string, status int) error {
+func (c *Cache) UpdateStatus(_ context.Context, url string, status int) error {
 	c.mtx.Lock()
 	defer c.mtx.Unlock()
 

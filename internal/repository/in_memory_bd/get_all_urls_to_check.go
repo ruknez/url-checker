@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func (c *cache) GetAllUrlsToCheck(_ context.Context) []string {
+func (c *Cache) GetAllUrlsToCheck(_ context.Context) []string {
 	c.mtx.RLock()
 	defer c.mtx.RUnlock()
 

@@ -94,7 +94,7 @@ func Test_checker_GetStatus(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := &checker{
+			c := &Checker{
 				urlRepo:         tt.fields.urlRepo,
 				tickDuration:    tt.fields.tickDuration,
 				logger:          tt.fields.logger,

@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"log/slog"
+	"os"
+	"runtime/debug"
 
 	entity "url-checker/internal/domain"
-	checker2 "url-checker/internal/service/checker"
 )
 
 //go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/checker_mock.go . checker:CheckerMock
@@ -14,7 +16,17 @@ type checker interface {
 }
 
 func main() {
+	//myCheker := checker2.NewChecker()
+	//myCheker.
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+		Level: slog.LevelDebug,
+	}))
 
-	myCheker := checker2.NewChecker()
-	myCheker.
+	slog.SetDefault(logger)
+
+	slog.Debug("Debug message")
+	slog.Info("Info message")
+	slog.Warn("Warning message")
+	slog.Error("Error message")
+	debug.ReadBuildInfo()
 }

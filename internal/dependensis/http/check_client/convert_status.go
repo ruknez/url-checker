@@ -18,7 +18,7 @@ func convertStatus(status int) entity.Status {
 		res = entity.Moved
 	}
 
-	if status >= 500 {
+	if status >= 400 {
 		res = entity.NotAvailable
 	}
 
