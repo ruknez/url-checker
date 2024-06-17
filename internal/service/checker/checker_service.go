@@ -9,7 +9,7 @@ import (
 
 //go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/url_repository_mock.go . urlRepository:UrlRepositoryMock
 type urlRepository interface {
-	Get(ctx context.Context, url string) (*entity.UrlInfo, error)
+	Get(ctx context.Context, url string) (entity.UrlInfo, error)
 	GetAllUrls(ctx context.Context) []string
 	GetAllUrlsToCheck(ctx context.Context) []string
 	UpdateStatus(ctx context.Context, url string, status entity.Status) error

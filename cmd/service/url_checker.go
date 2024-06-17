@@ -2,10 +2,9 @@ package main
 
 import (
 	"context"
-	"log/slog"
-	"os"
-	"runtime/debug"
+	"log"
 
+	"url-checker/internal/app"
 	entity "url-checker/internal/domain"
 )
 
@@ -16,17 +15,12 @@ type checker interface {
 }
 
 func main() {
-	//myCheker := checker2.NewChecker()
-	//myCheker.
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
-		Level: slog.LevelDebug,
-	}))
+	ctx := context.Background()
 
-	slog.SetDefault(logger)
+	app := app.NewApp(ctx)
 
-	slog.Debug("Debug message")
-	slog.Info("Info message")
-	slog.Warn("Warning message")
-	slog.Error("Error message")
-	debug.ReadBuildInfo()
+	err := app.Run()
+	if err != nil {
+		log.Fatalf("failed to run app: %s", err.Error())
+	}
 }
