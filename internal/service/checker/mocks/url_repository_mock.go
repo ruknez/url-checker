@@ -15,7 +15,7 @@ import (
 //
 //		// make and configure a mocked checker.urlRepository
 //		mockedurlRepository := &UrlRepositoryMock{
-//			GetFunc: func(ctx context.Context, url string) (*entity.UrlInfo, error) {
+//			GetFunc: func(ctx context.Context, url string) (entity.UrlInfo, error) {
 //				panic("mock out the Get method")
 //			},
 //			GetAllUrlsFunc: func(ctx context.Context) []string {
@@ -35,7 +35,7 @@ import (
 //	}
 type UrlRepositoryMock struct {
 	// GetFunc mocks the Get method.
-	GetFunc func(ctx context.Context, url string) (*entity.UrlInfo, error)
+	GetFunc func(ctx context.Context, url string) (entity.UrlInfo, error)
 
 	// GetAllUrlsFunc mocks the GetAllUrls method.
 	GetAllUrlsFunc func(ctx context.Context) []string
@@ -82,7 +82,7 @@ type UrlRepositoryMock struct {
 }
 
 // Get calls GetFunc.
-func (mock *UrlRepositoryMock) Get(ctx context.Context, url string) (*entity.UrlInfo, error) {
+func (mock *UrlRepositoryMock) Get(ctx context.Context, url string) (entity.UrlInfo, error) {
 	callInfo := struct {
 		Ctx context.Context
 		URL string
@@ -95,7 +95,7 @@ func (mock *UrlRepositoryMock) Get(ctx context.Context, url string) (*entity.Url
 	mock.lockGet.Unlock()
 	if mock.GetFunc == nil {
 		var (
-			urlInfoOut *entity.UrlInfo
+			urlInfoOut entity.UrlInfo
 			errOut     error
 		)
 		return urlInfoOut, errOut

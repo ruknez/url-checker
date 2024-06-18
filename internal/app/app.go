@@ -45,6 +45,7 @@ func (a *App) runMainHttpServer() error {
 	httpClientServer := api_http.NewHttpServer(a.ctx, a.serviceProvider.checker, a.serviceProvider.logger)
 
 	mux.HandleFunc("/getStatus", httpClientServer.GetHandler)
+	mux.HandleFunc("/addUrl", httpClientServer.AddUrlHandler)
 
 	httpServer := main_http_server.NewHttpService(a.ctx, "", 8080, mux)
 
