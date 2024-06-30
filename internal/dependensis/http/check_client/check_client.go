@@ -4,8 +4,9 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/pkg/errors"
 	entity "url-checker/internal/domain"
+
+	"github.com/pkg/errors"
 )
 
 type CheckClient struct{}
@@ -14,7 +15,7 @@ func NewCheckClient() *CheckClient {
 	return &CheckClient{}
 }
 
-// GetUrlStatus дедает запрос по урлу и возвращает его статус.
+// GetUrlStatus делает запрос по урлу и возвращает его статус.
 func (c *CheckClient) GetUrlStatus(ctx context.Context, url string) (entity.Status, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodOptions, url, http.NoBody)
 	if err != nil {

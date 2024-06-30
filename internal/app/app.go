@@ -24,6 +24,9 @@ func NewApp(ctx context.Context) *App {
 		serviceProvider: createServiceProvider(ctx),
 	}
 
+	// fx
+	// gd.fastStopContext, stop = signal.NotifyContext(ctx, os.Interrupt, syscall.SIGTERM)
+
 	return &a
 }
 
