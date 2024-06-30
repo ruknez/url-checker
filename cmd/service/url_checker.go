@@ -2,9 +2,10 @@ package main
 
 import (
 	"context"
+	"log"
 
+	"url-checker/internal/app"
 	entity "url-checker/internal/domain"
-	checker2 "url-checker/internal/service/checker"
 )
 
 //go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/checker_mock.go . checker:CheckerMock
@@ -14,7 +15,12 @@ type checker interface {
 }
 
 func main() {
+	ctx := context.Background()
 
-	myCheker := checker2.NewChecker()
-	myCheker.
+	app := app.NewApp(ctx)
+
+	err := app.Run()
+	if err != nil {
+		log.Fatalf("failed to run app: %s", err.Error())
+	}
 }

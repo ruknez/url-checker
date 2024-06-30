@@ -7,7 +7,7 @@ import (
 	"url-checker/internal/repository/in_memory_bd/mapping"
 )
 
-func (c *cache) Get(_ context.Context, url string) (entity.UrlInfo, error) {
+func (c *Cache) Get(_ context.Context, url string) (entity.UrlInfo, error) {
 	c.mtx.RLock()
 	defer c.mtx.RUnlock()
 
@@ -18,7 +18,7 @@ func (c *cache) Get(_ context.Context, url string) (entity.UrlInfo, error) {
 	return entity.UrlInfo{}, entity.NoDataErr
 }
 
-func (c *cache) GetAllUrls(_ context.Context) []string {
+func (c *Cache) GetAllUrls(_ context.Context) []string {
 	c.mtx.RLock()
 	defer c.mtx.RUnlock()
 

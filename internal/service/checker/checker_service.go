@@ -9,7 +9,7 @@ import (
 
 //go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/url_repository_mock.go . urlRepository:UrlRepositoryMock
 type urlRepository interface {
-	Get(ctx context.Context, url string) (*entity.UrlInfo, error)
+	Get(ctx context.Context, url string) (entity.UrlInfo, error)
 	GetAllUrls(ctx context.Context) []string
 	GetAllUrlsToCheck(ctx context.Context) []string
 	UpdateStatus(ctx context.Context, url string, status entity.Status) error
@@ -25,7 +25,7 @@ type getUrlStatuser interface {
 	GetUrlStatus(ctx context.Context, url string) (entity.Status, error)
 }
 
-type checker struct {
+type Checker struct {
 	urlRepo         urlRepository
 	tickDuration    time.Duration
 	logger          logger
@@ -38,8 +38,8 @@ func NewChecker(
 	logger logger,
 	tickDuration time.Duration,
 	statuserService getUrlStatuser,
-) *checker {
-	ch := &checker{
+) *Checker {
+	ch := &Checker{
 		urlRepo:         urlRepo,
 		logger:          logger,
 		tickDuration:    tickDuration,
@@ -51,14 +51,19 @@ func NewChecker(
 	return ch
 }
 
-func (c *checker) gRun(ctx context.Context) {
+// gRun запускает итерационный процесс проверки урлов из базы.
+func (c *Checker) gRun(ctx context.Context) {
 	go func() {
-		for range time.Tick(c.tickDuration) {
+		ticker := time.NewTicker(c.tickDuration)
+		defer ticker.Stop()
+
+		for range ticker.C {
 			select {
 			case <-ctx.Done():
 				return
 			default:
 				c.checkAllUrls(ctx)
+				ticker.Reset(c.tickDuration)
 			}
 		}
 	}()

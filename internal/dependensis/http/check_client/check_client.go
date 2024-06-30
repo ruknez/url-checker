@@ -8,13 +8,14 @@ import (
 	entity "url-checker/internal/domain"
 )
 
-type checkClient struct{}
+type CheckClient struct{}
 
-func NewCheckClient() *checkClient {
-	return &checkClient{}
+func NewCheckClient() *CheckClient {
+	return &CheckClient{}
 }
 
-func (c *checkClient) GetUrlStatus(ctx context.Context, url string) (entity.Status, error) {
+// GetUrlStatus дедает запрос по урлу и возвращает его статус.
+func (c *CheckClient) GetUrlStatus(ctx context.Context, url string) (entity.Status, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodOptions, url, http.NoBody)
 	if err != nil {
 		return 0, errors.Wrap(err, "http.NewRequestWithContext")

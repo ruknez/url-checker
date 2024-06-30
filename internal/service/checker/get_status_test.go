@@ -37,9 +37,9 @@ func Test_checker_GetStatus(t *testing.T) {
 			name: "success",
 			fields: fields{
 				urlRepo: &mocks.UrlRepositoryMock{
-					GetFunc: func(ctx context.Context, url string) (*entity.UrlInfo, error) {
+					GetFunc: func(ctx context.Context, url string) (entity.UrlInfo, error) {
 						assert.Equal(t, "http://google.com", url)
-						return &entity.UrlInfo{
+						return entity.UrlInfo{
 							URL:       "url",
 							Duration:  10 * time.Second,
 							LastCheck: &tmpTime,
@@ -65,9 +65,9 @@ func Test_checker_GetStatus(t *testing.T) {
 			name: "success",
 			fields: fields{
 				urlRepo: &mocks.UrlRepositoryMock{
-					GetFunc: func(ctx context.Context, url string) (*entity.UrlInfo, error) {
+					GetFunc: func(ctx context.Context, url string) (entity.UrlInfo, error) {
 						assert.Equal(t, "http://google.com", url)
-						return &entity.UrlInfo{
+						return entity.UrlInfo{
 							URL:       "url",
 							Duration:  10 * time.Second,
 							LastCheck: &tmpTime,
@@ -94,7 +94,7 @@ func Test_checker_GetStatus(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := &checker{
+			c := &Checker{
 				urlRepo:         tt.fields.urlRepo,
 				tickDuration:    tt.fields.tickDuration,
 				logger:          tt.fields.logger,
