@@ -8,18 +8,18 @@ import (
 	"sync"
 )
 
-// LoggerMock is a mock implementation of checker.logger.
+// LoggerMock is a mock implementation of checker.Logger.
 //
-//	func TestSomethingThatUseslogger(t *testing.T) {
+//	func TestSomethingThatUsesLogger(t *testing.T) {
 //
-//		// make and configure a mocked checker.logger
-//		mockedlogger := &LoggerMock{
+//		// make and configure a mocked checker.Logger
+//		mockedLogger := &LoggerMock{
 //			ErrorFunc: func(ctx context.Context, args ...interface{})  {
 //				panic("mock out the Error method")
 //			},
 //		}
 //
-//		// use mockedlogger in code that requires checker.logger
+//		// use mockedLogger in code that requires checker.Logger
 //		// and then make assertions.
 //
 //	}
@@ -61,7 +61,7 @@ func (mock *LoggerMock) Error(ctx context.Context, args ...interface{}) {
 // ErrorCalls gets all the calls that were made to Error.
 // Check the length with:
 //
-//	len(mockedlogger.ErrorCalls())
+//	len(mockedLogger.ErrorCalls())
 func (mock *LoggerMock) ErrorCalls() []struct {
 	Ctx  context.Context
 	Args []interface{}

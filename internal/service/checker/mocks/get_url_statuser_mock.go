@@ -9,18 +9,18 @@ import (
 	entity "url-checker/internal/domain"
 )
 
-// GetUrlStatuserMock is a mock implementation of checker.getUrlStatuser.
+// GetUrlStatuserMock is a mock implementation of checker.GetUrlStatuser.
 //
-//	func TestSomethingThatUsesgetUrlStatuser(t *testing.T) {
+//	func TestSomethingThatUsesGetUrlStatuser(t *testing.T) {
 //
-//		// make and configure a mocked checker.getUrlStatuser
-//		mockedgetUrlStatuser := &GetUrlStatuserMock{
+//		// make and configure a mocked checker.GetUrlStatuser
+//		mockedGetUrlStatuser := &GetUrlStatuserMock{
 //			GetUrlStatusFunc: func(ctx context.Context, url string) (entity.Status, error) {
 //				panic("mock out the GetUrlStatus method")
 //			},
 //		}
 //
-//		// use mockedgetUrlStatuser in code that requires checker.getUrlStatuser
+//		// use mockedGetUrlStatuser in code that requires checker.GetUrlStatuser
 //		// and then make assertions.
 //
 //	}
@@ -66,7 +66,7 @@ func (mock *GetUrlStatuserMock) GetUrlStatus(ctx context.Context, url string) (e
 // GetUrlStatusCalls gets all the calls that were made to GetUrlStatus.
 // Check the length with:
 //
-//	len(mockedgetUrlStatuser.GetUrlStatusCalls())
+//	len(mockedGetUrlStatuser.GetUrlStatusCalls())
 func (mock *GetUrlStatuserMock) GetUrlStatusCalls() []struct {
 	Ctx context.Context
 	URL string

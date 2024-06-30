@@ -18,7 +18,7 @@ func (h *HttpServer) GetHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	in := InResource{}
+	in := inResource{}
 	err = json.Unmarshal(body, &in)
 	if err != nil {
 		h.logger.Error(h.ctx, fmt.Errorf("GetHandler json.Unmarshal: %w", err).Error())
@@ -27,7 +27,7 @@ func (h *HttpServer) GetHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := OutStatus{}
+	out := outStatus{}
 	out.Status, err = h.checkerService.GetStatus(r.Context(), in.Url)
 	if err != nil {
 		h.logger.Error(h.ctx, fmt.Errorf("GetHandler GetStatus: %w", err).Error())

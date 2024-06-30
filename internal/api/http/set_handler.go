@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 func (h *HttpServer) AddUrlHandler(w http.ResponseWriter, r *http.Request) {
@@ -20,11 +18,11 @@ func (h *HttpServer) AddUrlHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	a := mux.NewRouter()
+	//a := mux.NewRouter()
 	// m.Handle("GET example.org/images/", imagesHandler)
 	// a.HandleFunc().Methods("POST").Path("/{url}").Name()
 
-	in := InResource{}
+	in := inResource{}
 	err = json.Unmarshal(body, &in)
 	if err != nil {
 		h.logger.Error(h.ctx, fmt.Errorf("GetHandler json.Unmarshal: %w", err).Error())
