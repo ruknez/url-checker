@@ -1,0 +1,14 @@
+with-expecter: True
+inpackage: True
+inpackage-suffix: True
+testonly: False
+disable-version-string: True
+case: underscore
+packages:
+  url-checker/internal/service/checker:
+    interfaces:
+        config:
+          with-expecter: False
+        configs:
+          - mockname: MockRequesterVariadicOneArgument
+            unroll-variadic: False
