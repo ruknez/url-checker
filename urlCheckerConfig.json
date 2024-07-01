@@ -1,0 +1,10 @@
+{
+  "mainServiceConfig": {
+    "host": "localhost",
+    "port": 8080
+  },
+  "pingServiceConfig": {
+    "host": "localhost",
+    "port": 8085
+  }
+}

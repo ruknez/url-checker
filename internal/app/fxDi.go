@@ -3,8 +3,10 @@ package app
 import (
 	"time"
 
-	"url-checker/internal/api/http"
+	"url-checker/internal/api/http/ping"
+	"url-checker/internal/api/http/url_checker"
 	main_http_server "url-checker/internal/app/http"
+	"url-checker/internal/config"
 	"url-checker/internal/dependensis/http/check_client"
 	"url-checker/internal/repository/in_memory_bd"
 	"url-checker/internal/service/checker"
@@ -19,6 +21,7 @@ func Run() {
 			fx.Annotate(
 				checker.NewChecker,
 				fx.ParamTags(`name:"tickDuration"`),
+				fx.As(new(http.Checker)),
 			),
 			fx.Annotate(
 				func() time.Duration {
@@ -38,20 +41,25 @@ func Run() {
 			fx.Annotate(
 				logger.NewLogger,
 				fx.As(new(checker.Logger)),
+				fx.As(new(http.Logger)),
 			),
 			fx.Annotate(
-				main_http_server.NewHttpService,
+				main_http_server.NewMainHttpService,
 				fx.As(new(http.Server)),
-				fx.ParamTags(`name:"host"`, `name:"port"`),
 			),
-			func() string {
-				return "localhost"
-			},
-			func() int {
-				return 8080
-			},
+			fx.Annotate(
+				config.NewConfigService,
+				fx.As(new(main_http_server.MainServiceConfigInterface)),
+				fx.As(new(main_http_server.PingServiceConfigInterface)),
+			),
+			fx.Annotate(
+				main_http_server.NewPingHttpService,
+				fx.As(new(ping.PingerTransport)),
+			),
+
+			ping.NewPingHandler,
 		),
-		fx.Invoke(func(*checker.Checker) {}),
+		fx.Invoke(func(*ping.PingHandlerSt) {}),
 	).Run()
 
 }

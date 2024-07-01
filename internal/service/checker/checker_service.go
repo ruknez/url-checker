@@ -35,10 +35,10 @@ type Checker struct {
 }
 
 func NewChecker(
+	tickDuration time.Duration,
 	lc fx.Lifecycle,
 	urlRepo UrlRepository,
 	logger Logger,
-	tickDuration time.Duration,
 	statuserService GetUrlStatuser,
 ) *Checker {
 	ch := &Checker{

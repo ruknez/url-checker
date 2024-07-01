@@ -10,11 +10,32 @@ import (
 	"go.uber.org/fx"
 )
 
+type MainServiceConfigInterface interface {
+	MainServiceConfig() (string, int)
+}
+
+type PingServiceConfigInterface interface {
+	PingServiceConfig() (string, int)
+}
+
 type ServerTransport struct {
 	*http.Server
 }
 
-func NewHttpService(lc fx.Lifecycle, host string, port int) *ServerTransport {
+// TODO очень сомнительное решение надо бы обсутить как сделать лучше.
+// Мб передавалть host and  port как аргументы и как-то рулить на уровне di.
+func NewPingHttpService(lc fx.Lifecycle, conf PingServiceConfigInterface) *ServerTransport {
+	slog.Info("NewPingHttpService constructor")
+	host, port := conf.PingServiceConfig()
+	return httpService(lc, host, port)
+}
+
+func NewMainHttpService(lc fx.Lifecycle, conf MainServiceConfigInterface) *ServerTransport {
+	host, port := conf.MainServiceConfig()
+	return httpService(lc, host, port)
+}
+
+func httpService(lc fx.Lifecycle, host string, port int) *ServerTransport {
 	errCh := make(chan error)
 	httpServer := &http.Server{
 		Addr: fmt.Sprintf("%s:%d", host, port),
