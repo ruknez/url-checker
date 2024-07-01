@@ -5,6 +5,8 @@ import (
 	"time"
 
 	entity "url-checker/internal/domain"
+
+	"go.uber.org/fx"
 )
 
 //go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/url_repository_mock.go . UrlRepository:UrlRepositoryMock
@@ -33,7 +35,7 @@ type Checker struct {
 }
 
 func NewChecker(
-	ctx context.Context,
+	lc fx.Lifecycle,
 	urlRepo UrlRepository,
 	logger Logger,
 	tickDuration time.Duration,
@@ -46,7 +48,15 @@ func NewChecker(
 		statuserService: statuserService,
 	}
 
-	ch.gRun(ctx)
+	lc.Append(fx.Hook{
+		OnStart: func(ctx context.Context) error {
+			ch.gRun(ctx)
+			return nil
+		},
+		OnStop: func(ctx context.Context) error {
+			return nil
+		},
+	})
 
 	return ch
 }

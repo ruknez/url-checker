@@ -1,6 +1,8 @@
 package app
 
 import (
+	"time"
+
 	"url-checker/internal/api/http"
 	main_http_server "url-checker/internal/app/http"
 	"url-checker/internal/dependensis/http/check_client"
@@ -14,7 +16,16 @@ import (
 func Run() {
 	fx.New(
 		fx.Provide(
-			checker.NewChecker,
+			fx.Annotate(
+				checker.NewChecker,
+				fx.ParamTags(`name:"tickDuration"`),
+			),
+			fx.Annotate(
+				func() time.Duration {
+					return 1 * time.Second
+				},
+				fx.ResultTags(`name:"tickDuration"`),
+			),
 			http.NewHttpServer,
 			fx.Annotate(
 				check_client.NewCheckClient,
