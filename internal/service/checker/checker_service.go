@@ -27,6 +27,10 @@ type GetUrlStatuser interface {
 	GetUrlStatus(ctx context.Context, url string) (entity.Status, error)
 }
 
+type CheckerSettings interface {
+	GetDuration() int
+}
+
 type Checker struct {
 	urlRepo         UrlRepository
 	tickDuration    time.Duration
@@ -35,16 +39,17 @@ type Checker struct {
 }
 
 func NewChecker(
-	tickDuration time.Duration,
 	lc fx.Lifecycle,
 	urlRepo UrlRepository,
 	logger Logger,
 	statuserService GetUrlStatuser,
+	settings CheckerSettings,
 ) *Checker {
+
 	ch := &Checker{
 		urlRepo:         urlRepo,
 		logger:          logger,
-		tickDuration:    tickDuration,
+		tickDuration:    time.Duration(settings.GetDuration()) * time.Second,
 		statuserService: statuserService,
 	}
 

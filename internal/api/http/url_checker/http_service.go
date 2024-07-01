@@ -37,10 +37,13 @@ func NewHttpServer(lc fx.Lifecycle, checker Checker, logger Logger, server Serve
 		checkerService: checker,
 		logger:         logger,
 	}
+	slog.Info("NewHttpServer constructor")
 
+	// TODO нужно ли тут делать в hook, мб просто в конструкторе просто надо делать? Вообще зачем нужен Hook?
 	lc.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
+				slog.Info("NewHttpServer OnStart")
 				h.ctx = ctx
 				mux := http.NewServeMux()
 

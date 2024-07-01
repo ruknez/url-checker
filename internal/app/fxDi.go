@@ -1,8 +1,6 @@
 package app
 
 import (
-	"time"
-
 	"url-checker/internal/api/http/ping"
 	"url-checker/internal/api/http/url_checker"
 	main_http_server "url-checker/internal/app/http"
@@ -20,16 +18,8 @@ func Run() {
 		fx.Provide(
 			fx.Annotate(
 				checker.NewChecker,
-				fx.ParamTags(`name:"tickDuration"`),
 				fx.As(new(http.Checker)),
 			),
-			fx.Annotate(
-				func() time.Duration {
-					return 1 * time.Second
-				},
-				fx.ResultTags(`name:"tickDuration"`),
-			),
-			http.NewHttpServer,
 			fx.Annotate(
 				check_client.NewCheckClient,
 				fx.As(new(checker.GetUrlStatuser)),
@@ -51,15 +41,16 @@ func Run() {
 				config.NewConfigService,
 				fx.As(new(main_http_server.MainServiceConfigInterface)),
 				fx.As(new(main_http_server.PingServiceConfigInterface)),
+				fx.As(new(checker.CheckerSettings)),
 			),
 			fx.Annotate(
 				main_http_server.NewPingHttpService,
 				fx.As(new(ping.PingerTransport)),
 			),
-
+			http.NewHttpServer,
 			ping.NewPingHandler,
 		),
-		fx.Invoke(func(*ping.PingHandlerSt) {}),
+		fx.Invoke(func(*ping.PingHandlerSt) {}, func(*http.HttpServer) {}),
 	).Run()
 
 }

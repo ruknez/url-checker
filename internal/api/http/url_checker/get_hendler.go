@@ -23,6 +23,7 @@ func (h *HttpServer) GetHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.logger.Error(h.ctx, fmt.Errorf("GetHandler json.Unmarshal: %w", err).Error())
 		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
 
 		return
 	}

@@ -7,5 +7,6 @@ type serviceConfig struct {
 
 type commonConfig struct {
 	MainServiceConfig serviceConfig `json:"mainServiceConfig"`
-	PingServiceConfig serviceConfig ` json:"pingServiceConfig"`
+	PingServiceConfig serviceConfig `json:"pingServiceConfig"`
+	TickDuration      int           `json:"tickDuration"`
 }

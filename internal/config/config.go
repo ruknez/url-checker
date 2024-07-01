@@ -16,32 +16,34 @@ type ConfigService struct {
 	config commonConfig
 }
 
-func NewConfigService(lc fx.Lifecycle) *ConfigService {
+// TODO понять какая разница между вызовом конструктора и вызовом хука fx.Hook (тк вообще не определен порядок)
+func NewConfigService(lc fx.Lifecycle) (*ConfigService, error) {
 	c := &ConfigService{}
 	slog.Info("NewConfigService constructor")
+
+	configPath, exists := os.LookupEnv(urlCheckerConfig)
+	if !exists {
+		configPath = "urlCheckerConfig.json"
+	}
+
+	conf := commonConfig{}
+
+	b, err := os.ReadFile(configPath)
+	if err != nil {
+		return c, errors.Wrap(err, "os.ReadFile")
+	}
+
+	err = json.Unmarshal(b, &conf)
+	if err != nil {
+		return c, errors.Wrap(err, "Unmarshal"+" config path "+urlCheckerConfig)
+	}
+
+	c.config = conf
 
 	lc.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
 				slog.Info("NewConfigService OnStart")
-				configPath, exists := os.LookupEnv(urlCheckerConfig)
-				if !exists {
-					configPath = "urlCheckerConfig.json"
-				}
-
-				conf := commonConfig{}
-
-				b, err := os.ReadFile(configPath)
-				if err != nil {
-					return errors.Wrap(err, "os.ReadFile")
-				}
-
-				err = json.Unmarshal(b, &conf)
-				if err != nil {
-					return errors.Wrap(err, "Unmarshal"+" config path "+urlCheckerConfig)
-				}
-
-				c.config = conf
 
 				return nil
 			},
@@ -52,5 +54,5 @@ func NewConfigService(lc fx.Lifecycle) *ConfigService {
 		},
 	)
 
-	return c
+	return c, nil
 }

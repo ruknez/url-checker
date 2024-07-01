@@ -6,5 +6,6 @@
   "pingServiceConfig": {
     "host": "localhost",
     "port": 8085
-  }
+  },
+  "tickDuration": 1
 }
