@@ -8,18 +8,18 @@ import (
 	"sync"
 )
 
-// LoggerMock is a mock implementation of checker.Logger.
+// LoggerMock is a mock implementation of http.Logger.
 //
 //	func TestSomethingThatUsesLogger(t *testing.T) {
 //
-//		// make and configure a mocked checker.Logger
+//		// make and configure a mocked http.Logger
 //		mockedLogger := &LoggerMock{
 //			ErrorFunc: func(ctx context.Context, args ...interface{})  {
 //				panic("mock out the Error method")
 //			},
 //		}
 //
-//		// use mockedLogger in code that requires checker.Logger
+//		// use mockedLogger in code that requires http.Logger
 //		// and then make assertions.
 //
 //	}

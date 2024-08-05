@@ -5,48 +5,63 @@ import (
 	"time"
 
 	entity "url-checker/internal/domain"
+
+	"go.uber.org/fx"
 )
 
-//go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/url_repository_mock.go . urlRepository:UrlRepositoryMock
-type urlRepository interface {
+//go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/url_repository_mock.go . UrlRepository:UrlRepositoryMock
+type UrlRepository interface {
 	Get(ctx context.Context, url string) (entity.UrlInfo, error)
 	GetAllUrls(ctx context.Context) []string
 	GetAllUrlsToCheck(ctx context.Context) []string
 	UpdateStatus(ctx context.Context, url string, status entity.Status) error
 }
 
-//go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/logger_mock.go . logger:LoggerMock
-type logger interface {
+//go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/logger_mock.go . Logger:LoggerMock
+type Logger interface {
 	Error(ctx context.Context, args ...interface{})
 }
 
-//go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/get_url_statuser_mock.go . getUrlStatuser:GetUrlStatuserMock
-type getUrlStatuser interface {
+//go:generate moq -stub -skip-ensure -pkg mocks -out ./mocks/get_url_statuser_mock.go . GetUrlStatuser:GetUrlStatuserMock
+type GetUrlStatuser interface {
 	GetUrlStatus(ctx context.Context, url string) (entity.Status, error)
 }
 
+type CheckerSettings interface {
+	GetDuration() int
+}
+
 type Checker struct {
-	urlRepo         urlRepository
+	urlRepo         UrlRepository
 	tickDuration    time.Duration
-	logger          logger
-	statuserService getUrlStatuser
+	logger          Logger
+	statuserService GetUrlStatuser
 }
 
 func NewChecker(
-	ctx context.Context,
-	urlRepo urlRepository,
-	logger logger,
-	tickDuration time.Duration,
-	statuserService getUrlStatuser,
+	lc fx.Lifecycle,
+	urlRepo UrlRepository,
+	logger Logger,
+	statuserService GetUrlStatuser,
+	settings CheckerSettings,
 ) *Checker {
+
 	ch := &Checker{
 		urlRepo:         urlRepo,
 		logger:          logger,
-		tickDuration:    tickDuration,
+		tickDuration:    time.Duration(settings.GetDuration()) * time.Second,
 		statuserService: statuserService,
 	}
 
-	ch.gRun(ctx)
+	lc.Append(fx.Hook{
+		OnStart: func(ctx context.Context) error {
+			ch.gRun(ctx)
+			return nil
+		},
+		OnStop: func(ctx context.Context) error {
+			return nil
+		},
+	})
 
 	return ch
 }

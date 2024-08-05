@@ -4,10 +4,10 @@ import (
 	entity "url-checker/internal/domain"
 )
 
-type InResource struct {
+type inResource struct {
 	Url string `json:"url"`
 }
 
-type OutStatus struct {
+type outStatus struct {
 	Status entity.Status `json:"status"`
 }

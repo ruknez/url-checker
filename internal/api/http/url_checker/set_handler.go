@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func (h *HttpServer) GetHandler(w http.ResponseWriter, r *http.Request) {
+func (h *HttpServer) AddUrlHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	body, err := io.ReadAll(r.Body)
@@ -18,7 +18,11 @@ func (h *HttpServer) GetHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	in := InResource{}
+	//a := mux.NewRouter()
+	// m.Handle("GET example.org/images/", imagesHandler)
+	// a.HandleFunc().Methods("POST").Path("/{url}").Name()
+
+	in := inResource{}
 	err = json.Unmarshal(body, &in)
 	if err != nil {
 		h.logger.Error(h.ctx, fmt.Errorf("GetHandler json.Unmarshal: %w", err).Error())
@@ -27,22 +31,11 @@ func (h *HttpServer) GetHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := OutStatus{}
-	out.Status, err = h.checkerService.GetStatus(r.Context(), in.Url)
+	err = h.checkerService.AddUrl(r.Context(), in.Url)
 	if err != nil {
-		h.logger.Error(h.ctx, fmt.Errorf("GetHandler GetStatus: %w", err).Error())
+		h.logger.Error(h.ctx, fmt.Errorf("AddUrlHandler AddUrl: %w", err).Error())
 		w.WriteHeader(http.StatusInternalServerError)
 
 		return
 	}
-
-	res, jError := json.Marshal(&out)
-	if jError != nil {
-		h.logger.Error(h.ctx, fmt.Errorf("GetHandler json.Marshal: %w", err).Error())
-		w.WriteHeader(http.StatusInternalServerError)
-
-		return
-	}
-
-	w.Write(res)
 }

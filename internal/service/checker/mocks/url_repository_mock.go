@@ -9,12 +9,12 @@ import (
 	entity "url-checker/internal/domain"
 )
 
-// UrlRepositoryMock is a mock implementation of checker.urlRepository.
+// UrlRepositoryMock is a mock implementation of checker.UrlRepository.
 //
-//	func TestSomethingThatUsesurlRepository(t *testing.T) {
+//	func TestSomethingThatUsesUrlRepository(t *testing.T) {
 //
-//		// make and configure a mocked checker.urlRepository
-//		mockedurlRepository := &UrlRepositoryMock{
+//		// make and configure a mocked checker.UrlRepository
+//		mockedUrlRepository := &UrlRepositoryMock{
 //			GetFunc: func(ctx context.Context, url string) (entity.UrlInfo, error) {
 //				panic("mock out the Get method")
 //			},
@@ -29,7 +29,7 @@ import (
 //			},
 //		}
 //
-//		// use mockedurlRepository in code that requires checker.urlRepository
+//		// use mockedUrlRepository in code that requires checker.UrlRepository
 //		// and then make assertions.
 //
 //	}
@@ -106,7 +106,7 @@ func (mock *UrlRepositoryMock) Get(ctx context.Context, url string) (entity.UrlI
 // GetCalls gets all the calls that were made to Get.
 // Check the length with:
 //
-//	len(mockedurlRepository.GetCalls())
+//	len(mockedUrlRepository.GetCalls())
 func (mock *UrlRepositoryMock) GetCalls() []struct {
 	Ctx context.Context
 	URL string
@@ -143,7 +143,7 @@ func (mock *UrlRepositoryMock) GetAllUrls(ctx context.Context) []string {
 // GetAllUrlsCalls gets all the calls that were made to GetAllUrls.
 // Check the length with:
 //
-//	len(mockedurlRepository.GetAllUrlsCalls())
+//	len(mockedUrlRepository.GetAllUrlsCalls())
 func (mock *UrlRepositoryMock) GetAllUrlsCalls() []struct {
 	Ctx context.Context
 } {
@@ -178,7 +178,7 @@ func (mock *UrlRepositoryMock) GetAllUrlsToCheck(ctx context.Context) []string {
 // GetAllUrlsToCheckCalls gets all the calls that were made to GetAllUrlsToCheck.
 // Check the length with:
 //
-//	len(mockedurlRepository.GetAllUrlsToCheckCalls())
+//	len(mockedUrlRepository.GetAllUrlsToCheckCalls())
 func (mock *UrlRepositoryMock) GetAllUrlsToCheckCalls() []struct {
 	Ctx context.Context
 } {
@@ -217,7 +217,7 @@ func (mock *UrlRepositoryMock) UpdateStatus(ctx context.Context, url string, sta
 // UpdateStatusCalls gets all the calls that were made to UpdateStatus.
 // Check the length with:
 //
-//	len(mockedurlRepository.UpdateStatusCalls())
+//	len(mockedUrlRepository.UpdateStatusCalls())
 func (mock *UrlRepositoryMock) UpdateStatusCalls() []struct {
 	Ctx    context.Context
 	URL    string
