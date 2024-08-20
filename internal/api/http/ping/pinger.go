@@ -19,6 +19,7 @@ func NewPingHandler(server PingerTransport) *PingHandlerSt {
 	p := &PingHandlerSt{}
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /ping", p.PingHandler)
+
 	server.RegisterHandlers(mux)
 
 	return p
